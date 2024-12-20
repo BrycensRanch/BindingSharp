@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BindingSharp.Core\BindingSharp.Core.csproj" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.console" Version="2.9.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.9.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <!-- Any project under devlooped/kzu is banned from my projects -->
+    <!-- So, this is the replacement. -->
+    <PackageReference Include="NSubstitute" Version="5.3.0" />
+    <PackageReference Include="GirCore.GLib-2.0" Version="0.5.0" />
+    <PackageReference Include="GirCore.Gtk-4.0" Version="0.5.0" />
+  </ItemGroup>
+
+</Project>

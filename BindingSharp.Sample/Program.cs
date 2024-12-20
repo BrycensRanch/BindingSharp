@@ -1,28 +1,24 @@
-﻿using System;
+﻿// See https://aka.ms/new-console-template for more information
+
+using BindingSharp.Sample.View;
+using Gio;
 using Gtk;
 
-namespace Binding.Samples
+var app = Gtk.Application.New("BindingSharp.Sample", ApplicationFlags.DefaultFlags);
+app.OnActivate += (sender, eventArgs) =>
 {
-    class Program
+    var win = new ApplicationWindow()
     {
-        [STAThread]
-        public static void Main(string[] args)
-        {
-            Application.Init();
-            
-            var app = new Application("org.GTK.GTK", GLib.ApplicationFlags.None);
-            app.Register(GLib.Cancellable.Current);
+        Title = "Sample App",
+        Application = app,
+    };
+    win.OnDestroy += (o, argss) => app.Quit();
 
-            var win = new Window("Sample app");
-            win.DeleteEvent += (o, argss) => Application.Quit();
-            app.AddWindow(win);
+    var viewModel = new ViewModel();
+    var view = new View(viewModel);
 
-            var viewModel = new ViewModel();
-            var view = new View(viewModel);
+    win.SetChild(view);
+    win.Show();
+};
+app.Run(0, args);
 
-            win.Add(view);
-            win.ShowAll();
-            Application.Run();
-        }
-    }
-}

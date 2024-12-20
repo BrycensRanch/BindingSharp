@@ -1,43 +1,50 @@
+
+/* Unmerged change from project 'BindingSharp.Sample(net9.0)'
+Before:
 using System;
 using System.Windows.Input;
+After:
+using System.Windows.Input;
+*/
+using System.Windows.Input;
 
-namespace Binding.Samples 
+namespace BindingSharp.Sample;
+
+public class Command : ICommand
 {
-    public class Command : ICommand
+    public event EventHandler CanExecuteChanged;
+
+    private readonly Action<object> execute;
+    private bool canExecute;
+
+    public Command(Action<object> execute)
     {
-        public event EventHandler CanExecuteChanged;
+        this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
+        canExecute = true;
+    }
 
-        private readonly Action<object> execute;
-        private bool canExecute;
+    public bool CanExecute(object parameter)
+    {
+        return canExecute;
+    }
 
-        public Command(Action<object> execute)
+    public void SetCanExecute(bool value)
+    {
+        if (value != canExecute)
         {
-            this.execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            canExecute = true;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return canExecute;
-        }
-        
-        public void SetCanExecute(bool value)
-        {
-            if(value != canExecute)
-            {
-                canExecute = value;
-                OnCanExecuteChanged();
-            }
-        }
-
-        public void Execute(object parameter)
-        {
-            execute(parameter);
-        }
-
-        protected void OnCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            canExecute = value;
+            OnCanExecuteChanged();
         }
     }
+
+    public void Execute(object parameter)
+    {
+        execute(parameter);
+    }
+
+    protected void OnCanExecuteChanged()
+    {
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    }
 }
+

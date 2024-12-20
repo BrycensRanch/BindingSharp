@@ -1,33 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+      <TargetFramework>net8.0</TargetFramework>
+      <ImplicitUsings>enable</ImplicitUsings>
+      <Nullable>enable</Nullable>
+    <PublishAot>true</PublishAot>
+    <Optimize>true</Optimize>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
-   <ProjectReference Include="../BindingSharp/BindingSharp.csproj" />
-    <Reference Include="GtkSharp">
-      <HintPath>../../GtkSharp/BuildOutput/Debug/GtkSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="GLibSharp">
-      <HintPath>../../GtkSharp/BuildOutput/Debug/GLibSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="AtkSharp">
-      <HintPath>../../GtkSharp/BuildOutput/Debug/AtkSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="GioSharp">
-      <HintPath>../../GtkSharp/BuildOutput/Debug/GioSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="PangoSharp">
-      <HintPath>../../GtkSharp/BuildOutput/Debug/PangoSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="GdkSharp">
-      <HintPath>../../GtkSharp/BuildOutput/Debug/GdkSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="CairoSharp">
-      <HintPath>../../GtkSharp/BuildOutput/Debug/CairoSharp.dll</HintPath>
-    </Reference>
+   <ProjectReference Include="..\BindingSharp.Core\BindingSharp.Core.csproj" />
+    <PackageReference Include="GirCore.Gst-1.0" Version="0.5.0" />
+    <PackageReference Include="GirCore.Gtk-4.0" Version="0.5.0" />
+    <PackageReference Include="GirCore.Gio-2.0" Version="0.5.0" />
+    <PackageReference Include="GirCore.Gdk-4.0" Version="0.5.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,45 +1,54 @@
-using System;
-using System.IO;
-using System.Reflection;
-using GLib;
+using System.ComponentModel;
+using BindingSharp.Core.Gtk;
 using GtkLib = Gtk;
-using Binding.Gtk;
-using UI = Gtk.Builder.ObjectAttribute;
 
-namespace Binding.Samples
+namespace BindingSharp.Sample.View;
+
+public class View : GtkLib.Box
 {
-    public class View : GtkLib.Box
+    [PropertyBinding(nameof(GetProperty), nameof(ViewModel.Label))]
+    public GtkLib.Label Label;
+
+    [CommandBinding(nameof(ViewModel.ChangeLabelCommand))]
+    public GtkLib.Button ChangeLabelButton;
+
+    [ValidationBinding(nameof(ViewModel.ToggleErrorCommand))]
+    [CommandBinding(nameof(ViewModel.ToggleErrorCommand))]
+    public GtkLib.Button ToggleErrorButton;
+
+    public View(object viewModel)
     {
-        [UI]
-        [PropertyBinding(nameof(GtkLib.Label.LabelProp), nameof(ViewModel.Label))]
-        public GtkLib.Label Label;
-
-        [UI]
-        [CommandBinding(nameof(ViewModel.ChangeLabelCommand))]
-        public GtkLib.Button ChangeLabelButton;
-
-        [UI]
-        [ValidationBinding(nameof(ViewModel.ToggleErrorCommand))]
-        [CommandBinding(nameof(ViewModel.ToggleErrorCommand))]
-        public GtkLib.Button ToggleErrorButton;
-
-        public View(object viewModel) : this(new GtkLib.Builder("View.glade"))
+        if (viewModel == null)
         {
-            this.Bind(viewModel);
+            throw new ArgumentNullException(nameof(viewModel), "The view model cannot be null.");
+        }
+        if (!(viewModel is INotifyPropertyChanged))
+        {
+            throw new InvalidOperationException("View model must implement INotifyPropertyChanged.");
         }
 
-        private View(GtkLib.Builder builder) : base(builder.GetObject("View").Handle)
-        {
-            builder.Autoconnect(this);
-        }
+        // Output the view model for debugging
+        Console.WriteLine(viewModel);
 
-        protected override void Dispose(bool disposing)
+        // Bind the view model to the view
+        this.Bind(viewModel);
+
+        // Load the UI from the Glade file
+        var builder = new GtkLib.Builder("View.glade");
+
+        // Connect signals defined in the Glade file to this object
+        builder.Connect(this);
+    }
+
+
+
+
+    protected void Dispose(bool disposing = false)
+    {
+        if (disposing)
         {
-            if(disposing)
-            {
-                this.DisposeBindings();
-            }
-            base.Dispose(disposing);
+            this.DisposeBindings();
         }
+        base.Dispose();
     }
 }

@@ -1,34 +1,35 @@
-# BindingSharp # 
+# BindingSharp
 
-> Note: As GtkSharp will probably not gain support for `INotifyPropertyChanged` this project will be rebased on [gir.core](https://github.com/gircore/gir.core) as it's successor as soon as there are Nuget packages available.
 
-BindingSharp enables MVVM-Style programming with [GTKSharp][]. It is a library to bind properties of a GTK widget to a viewmodel. 
+BindingSharp enables MVVM-Style programming with [Gir.Core](https://gircore.github.io/). It is a library to bind properties of a GTK widget to a ViewModel.
 
-If you have a .NET Standard 2.0 or .NET CORE application you can port it's view to [GTK][] and reuse the rest of your code to be deployed on Windows, Linux and MacOs with differnt native UI toolkits.
+If you have a .NET 8 or .NET 9 app,
+you can port its [View][] to [GTK](https://gtk.org/)
+and reuse the rest of your code to be deployed wherever the hell you want.
 
-[GtkSharp]: https://github.com/GtkSharp/GtkSharp
-[Gtk]: https://gtk.org
+ [View]: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel#:~:text=Components%20of%20MVVM%20pattern,-Model&text=As%20in%20the%20model%E2%80%93view,user%20sees%20on%20the%20screen
 
-## Features ##
- * Binds properties of a [GTk.Widget][] to a viewmodel with a one-way or two-way binding via the [INotifyPropertyChanged][] interface
- * Special binding for a [Gtk.Button][] which can be bound to an [ICommand][]
- * Supports binding of a [GTk.Widget][] to a property of the viewmodel to support validation via the [INotifyDataErrorInfo][] interface (still work in progress)
+## Features
+ * Binds properties of a [GTK.Widget][] to a ViewModel with a one-way or two-way binding via the [INotifyPropertyChanged][] interface
+ * Special binding for a [GTK.Button][] which can be bound to an [ICommand][]
+ * Supports binding of a [GTK.Widget][] to a property of the ViewModel to support validation via the [INotifyDataErrorInfo][] interface (still work in progress)
 
- [Gtk.Widget]: https://developer.gnome.org/gtk3/stable/GtkWidget.html
- [Gtk.Button]: https://developer.gnome.org/gtk3/stable/GtkButton.html
- [ICommand]: https://docs.microsoft.com/de-de/dotnet/api/system.windows.input.icommand?view=netstandard-2.0
- [INotifyPropertyChanged]: https://docs.microsoft.com/de-de/dotnet/api/system.componentmodel.inotifypropertychanged?view=netstandard-2.0
- [INotifyDataErrorInfo]: https://docs.microsoft.com/de-de/dotnet/api/system.componentmodel.inotifydataerrorinfo?view=netstandard-2.0
+ [GTK.Widget]: https://docs.gtk.org/gtk4/class.Widget.html
+ [GTK.Button]: https://docs.gtk.org/gtk4/class.Button.html
+ [ICommand]: https://learn.microsoft.com/en-us/dotnet/api/system.windows.input.icommand?view=net-9.0
+ [INotifyPropertyChanged]: https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-9.0
+ [INotifyDataErrorInfo]: https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifydataerrorinfo?view=net-9.0
 
-## Using ##
-To use the binding the application must provide the viewmodel to the view to be able to create the binding inside the view.
+## Using
+To use the binding,
+the application must provide the ViewModel to the view to be able to create the binding inside the view.
 
 For a complete sample see the [Sample App](BindingSharp.Sample).
 
-1. Create a view class with a matching glade file which describes the user interface as XML. Inside your view reference some UI widgets in fields. For working examples see the [templates][] of GtkSharp.
+1. Create a view class with a matching glade file which describes the user interface as XML. Inside your view reference some UI widgets in fields. For working examples see the [templates][] of Gir.Core.
 2. Add the _PropertyBindingAttribute_ or _CommandBindingAttribute_ or _ValidationBindingAttribute_ to a widget of your UI
 3. Call _Bind(object obj)_ in your view's constructor to setup the binding
-    
+
         public class MyWidget : Box
         {
             ...
@@ -37,41 +38,30 @@ For a complete sample see the [Sample App](BindingSharp.Sample).
             [CommandBinding(nameof(ViewModelClass.MyCommand))]
             private Button MyButton;
 
-            public MyWidget(object viewmodel) : this(new Builder("MyWidget.glade")) 
-            { 
-                this.Bind(viewmodel)
+            public MyWidget(object ViewModel) : this(new Builder("MyWidget.glade"))
+            {
+                this.Bind(ViewModel)
             }
 
             ...
         }
-[templates]: https://github.com/GtkSharp/GtkSharp/tree/master/Source/Templates/GtkSharp.Template.CSharp/content
+[templates]: https://github.com/gircore/gir.core/tree/19ea31d95edc93a61f5d12ebae1ab8d2b69dcfcd/src/Samples
 
-## Building from source ##
-
----
-**Note**
-
-Currently GtkSharp is missing the support for _INotifyPropertyChanged_ on _GLib.Object_.
-
-There is a [pull request][1] to add this feature. Until the pull request is merged you can use a custom version from GtkSharp from [my temporary fork][2].
-
-To compile the code checkout the GTKSharp fork and put it parallel to this repository (see references in _*.csproj_ files)
+## Building from source
 
 ---
 
 There are 3 projects inside the repository:
- - **BindingSharp:** Project source
+ - **BindingSharp.Core:** Project source
  - **BindingSharp.Sample:** Example gtk application
  - **BindingSharp.Test:** Unit tests
 
  To build the source code run `dotnet build` in the corresponding project folder.
 
  To run the sample app execute `dotnet run` in the BindingSharp.Sample folder.
- 
+
  To test the code run `dotnet test` in the BindingSharp.Test folder.
 
-[1]: https://github.com/GtkSharp/GtkSharp/pull/103
-[2]: https://github.com/badcel/GtkSharp/tree/InterfaceSupport
+## License
 
-## License ##
-BindingSharp and its related components are licensed under [LGPL v2.1 license](LICENSE).
+BindingSharp and its related components are licensed under [LGPL v2.1 license](LICENSE.md).
