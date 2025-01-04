@@ -15,7 +15,7 @@ public class TestWidget : Widget
     public bool PropertyChangedEventRemoved;
 
     public bool TestBool { get; set; }
-    public bool Sensitive { get; set; }
+    public new bool Sensitive { get; set; }
 
     public StyleContext StyleContext => null;
 }

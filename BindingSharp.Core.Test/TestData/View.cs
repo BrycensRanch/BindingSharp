@@ -10,7 +10,7 @@ public class View
     {
         public event PropertyChangedEventHandler PropertyChanged { add { } remove { } }
 
-        public bool Sensitive { get; set; }
+        public new bool Sensitive { get; set; }
 
         public StyleContext StyleContext => null;
 
@@ -21,7 +21,7 @@ public class View
     {
         public event PropertyChangedEventHandler PropertyChanged { add { } remove { } }
 
-        public bool Sensitive { get; set; }
+        public new bool Sensitive { get; set; }
 
         public StyleContext StyleContext => null;
 
@@ -33,12 +33,12 @@ public class View
     {
         public event PropertyChangedEventHandler PropertyChanged { add { } remove { } }
 
-        public bool Sensitive { get; set; }
+        public new bool Sensitive { get; set; }
 
         public StyleContext StyleContext => null;
 
         [CommandBinding(nameof(TestData.ViewModel.WithCommandProperty.CommandProperty))]
-        public Button Button;
+        public required Button Button;
     }
 
     public interface WithObjectProperty
@@ -48,7 +48,7 @@ public class View
 
     public class WidgetWithObjectPropery : Widget
     {
-        public object ObjectProperty { get; set; }
+        public required object ObjectProperty { get; set; }
     }
 
 

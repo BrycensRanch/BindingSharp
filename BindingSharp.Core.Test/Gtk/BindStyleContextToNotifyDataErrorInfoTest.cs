@@ -17,102 +17,102 @@ namespace BindingSharp.Core.Test.Gtk;
 
 public class BindStyleContextToNotifyDataErrorInfoTest
 {
-internal BindStyleContextToNotifyDataErrorInfo GetObject(StyleContext styleContext = null, string cssClassName = null)
-{
-    if (styleContext == null)
-        styleContext = Substitute.For<StyleContext>();
+    internal BindStyleContextToNotifyDataErrorInfo GetObject(StyleContext styleContext = null, string cssClassName = null)
+    {
+        if (styleContext == null)
+            styleContext = Substitute.For<StyleContext>();
 
-    if (cssClassName == null)
-        cssClassName = "";
+        if (cssClassName == null)
+            cssClassName = "";
 
-    return new BindStyleContextToNotifyDataErrorInfo(styleContext, cssClassName);
-}
+        return new BindStyleContextToNotifyDataErrorInfo(styleContext, cssClassName);
+    }
 
-[Fact]
-public void CreateWithoutStyleContextThrowsArgumentNullException()
-{
-    Assert.Throws<ArgumentNullException>(() => new BindStyleContextToNotifyDataErrorInfo(null, ""));
-}
+    [Fact]
+    public void CreateWithoutStyleContextThrowsArgumentNullException()
+    {
+        Assert.Throws<ArgumentNullException>(() => new BindStyleContextToNotifyDataErrorInfo(null, ""));
+    }
 
-[Fact]
-public void CreateWithoutPropertyThrowsArgumentNullException()
-{
-    Assert.Throws<ArgumentNullException>(() => new BindStyleContextToNotifyDataErrorInfo(Substitute.For<StyleContext>(), null));
-}
+    [Fact]
+    public void CreateWithoutPropertyThrowsArgumentNullException()
+    {
+        Assert.Throws<ArgumentNullException>(() => new BindStyleContextToNotifyDataErrorInfo(Substitute.For<StyleContext>(), null));
+    }
 
-[Fact]
-public void BindWithoutTargetThrowsArgumentNullException()
-{
-    var obj = GetObject();
-    Assert.Throws<ArgumentNullException>(() => obj.Bind(null, ""));
-}
+    [Fact]
+    public void BindWithoutTargetThrowsArgumentNullException()
+    {
+        var obj = GetObject();
+        Assert.Throws<ArgumentNullException>(() => obj.Bind(null, ""));
+    }
 
-[Fact]
-public void BindWithTargetWhichIsNoINotifyDataErrorInfoThrowsArgumentException()
-{
-    var obj = GetObject();
-    Assert.Throws<ArgumentException>(() => obj.Bind(new object(), ""));
-}
+    [Fact]
+    public void BindWithTargetWhichIsNoINotifyDataErrorInfoThrowsArgumentException()
+    {
+        var obj = GetObject();
+        Assert.Throws<ArgumentException>(() => obj.Bind(new object(), ""));
+    }
 
-[Fact]
-public void GenericBindWithoutTargetThrowsArgumentNullException()
-{
-    var obj = GetObject();
-    Assert.Throws<ArgumentNullException>(() => obj.Bind(default(INotifyDataErrorInfo), ""));
-}
+    [Fact]
+    public void GenericBindWithoutTargetThrowsArgumentNullException()
+    {
+        var obj = GetObject();
+        Assert.Throws<ArgumentNullException>(() => obj.Bind(default(INotifyDataErrorInfo), ""));
+    }
 
-[Fact]
-public void GenericBindWithoutPropertyThrowsArgumentNullException()
-{
-    var obj = GetObject();
-    Assert.Throws<ArgumentNullException>(() => obj.Bind(Substitute.For<INotifyDataErrorInfo>(), null));
-}
+    [Fact]
+    public void GenericBindWithoutPropertyThrowsArgumentNullException()
+    {
+        var obj = GetObject();
+        Assert.Throws<ArgumentNullException>(() => obj.Bind(Substitute.For<INotifyDataErrorInfo>(), null));
+    }
 
-[Fact]
-public void OnErrorsChangedAddsClassToStyleContextIfNotPresent()
-{
-    var cssClassName = "cssClassName";
-    var property = "para";
+    [Fact]
+    public void OnErrorsChangedAddsClassToStyleContextIfNotPresent()
+    {
+        var cssClassName = "cssClassName";
+        var property = "para";
 
-    // Create substitutes for StyleContext and INotifyDataErrorInfo
-    var styleContext = Substitute.For<StyleContext>();
-    styleContext.HasClass(cssClassName).Returns(false);
+        // Create substitutes for StyleContext and INotifyDataErrorInfo
+        var styleContext = Substitute.For<StyleContext>();
+        styleContext.HasClass(cssClassName).Returns(false);
 
-    var notifyDataErrorInfo = Substitute.For<INotifyDataErrorInfo>();
-    notifyDataErrorInfo.GetErrors(property).Returns(new List<string> { "Error" });
+        var notifyDataErrorInfo = Substitute.For<INotifyDataErrorInfo>();
+        notifyDataErrorInfo.GetErrors(property).Returns(new List<string> { "Error" });
 
-    var obj = GetObject(styleContext, cssClassName);
-    obj.Bind(notifyDataErrorInfo, property);
+        var obj = GetObject(styleContext, cssClassName);
+        obj.Bind(notifyDataErrorInfo, property);
 
-    // Raise the ErrorsChanged event
-    notifyDataErrorInfo.ErrorsChanged += Raise.EventWith(new DataErrorsChangedEventArgs(property));
+        // Raise the ErrorsChanged event
+        notifyDataErrorInfo.ErrorsChanged += Raise.EventWith(new DataErrorsChangedEventArgs(property));
 
-    // Verify that AddClass was called
-    styleContext.Received().AddClass(cssClassName);
-}
+        // Verify that AddClass was called
+        styleContext.Received().AddClass(cssClassName);
+    }
 
-[Fact]
-public void OnErrorsChangedRemovesClassFromStyleContextIfPresent()
-{
-    var cssClassName = "cssClassName";
-    var property = "para";
+    [Fact]
+    public void OnErrorsChangedRemovesClassFromStyleContextIfPresent()
+    {
+        var cssClassName = "cssClassName";
+        var property = "para";
 
-    // Create substitutes for StyleContext and INotifyDataErrorInfo
-    var styleContext = Substitute.For<StyleContext>();
-    styleContext.HasClass(cssClassName).Returns(true);
+        // Create substitutes for StyleContext and INotifyDataErrorInfo
+        var styleContext = Substitute.For<StyleContext>();
+        styleContext.HasClass(cssClassName).Returns(true);
 
-    var notifyDataErrorInfo = Substitute.For<INotifyDataErrorInfo>();
-    notifyDataErrorInfo.GetErrors(property).Returns(new List<string>());
+        var notifyDataErrorInfo = Substitute.For<INotifyDataErrorInfo>();
+        notifyDataErrorInfo.GetErrors(property).Returns(new List<string>());
 
-    var obj = GetObject(styleContext, cssClassName);
-    obj.Bind(notifyDataErrorInfo, property);
+        var obj = GetObject(styleContext, cssClassName);
+        obj.Bind(notifyDataErrorInfo, property);
 
-    // Raise the ErrorsChanged event
-    notifyDataErrorInfo.ErrorsChanged += Raise.EventWith(new DataErrorsChangedEventArgs(property));
+        // Raise the ErrorsChanged event
+        notifyDataErrorInfo.ErrorsChanged += Raise.EventWith(new DataErrorsChangedEventArgs(property));
 
-    // Verify that RemoveClass was called
-    styleContext.Received().RemoveClass(cssClassName);
-}
+        // Verify that RemoveClass was called
+        styleContext.Received().RemoveClass(cssClassName);
+    }
 
     [Fact]
     public void DisposeDeregistersErrorsChangedEvent()

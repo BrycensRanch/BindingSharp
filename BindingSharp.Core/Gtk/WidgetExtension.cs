@@ -10,7 +10,7 @@ public static class WidgetExtension
 
     #region Providers
 
-    private static StyleProvider styleProvider;
+    private static required StyleProvider styleProvider;
     internal static StyleProvider StyleProvider
     {
         [ExcludeFromCodeCoverage]
@@ -24,7 +24,7 @@ public static class WidgetExtension
         set { styleProvider = value; }
     }
 
-    private static Func<StyleContext, string, IBinder> styleContextBindingProvider;
+    private static required Func<StyleContext, string, IBinder> styleContextBindingProvider;
     internal static Func<StyleContext, string, IBinder> StyleContextBindingProvider
     {
         [ExcludeFromCodeCoverage]
@@ -38,7 +38,7 @@ public static class WidgetExtension
         set { styleContextBindingProvider = value; }
     }
 
-    private static Func<Button, IBinder> commandBindingProvider;
+    private static required Func<Button, IBinder> commandBindingProvider;
     internal static Func<Button, IBinder> CommandBindingProvider
     {
         [ExcludeFromCodeCoverage]
@@ -52,7 +52,7 @@ public static class WidgetExtension
         set { commandBindingProvider = value; }
     }
 
-    private static Func<Widget, string, IBinder> widgetBindingProvider;
+    private static required Func<Widget, string, IBinder> widgetBindingProvider;
     internal static Func<Widget, string, IBinder> WidgetBindingProvider
     {
         [ExcludeFromCodeCoverage]

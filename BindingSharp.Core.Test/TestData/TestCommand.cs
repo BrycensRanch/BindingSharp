@@ -1,25 +1,24 @@
 using System.Windows.Input;
 
-namespace BindingSharp.Core.Test.TestData
+namespace BindingSharp.Core.Test.TestData;
+
+public class TestCommand : ICommand
 {
-    public class TestCommand : ICommand
+    public event EventHandler CanExecuteChanged
     {
-        public event EventHandler CanExecuteChanged
-        {
-            add { CanExecuteChangedWasAdded = true; }
-            remove { CanExecuteChangedWasRemoved = true; }
-        }
+        add { CanExecuteChangedWasAdded = true; }
+        remove { CanExecuteChangedWasRemoved = true; }
+    }
 
-        public bool CanExecuteChangedWasAdded;
-        public bool CanExecuteChangedWasRemoved;
+    public bool CanExecuteChangedWasAdded;
+    public bool CanExecuteChangedWasRemoved;
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
+    public bool CanExecute(object parameter)
+    {
+        return true;
+    }
 
-        public void Execute(object parameter)
-        {
-        }
+    public void Execute(object parameter)
+    {
     }
 }

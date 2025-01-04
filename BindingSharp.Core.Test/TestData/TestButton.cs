@@ -24,7 +24,7 @@ public class TestButton : Button
     public bool ClickedEventWasRemoved;
     public bool ClickedEventWasAdded;
 
-    public bool Sensitive { get; set; }
+    public new bool Sensitive { get; set; }
 
     public StyleContext StyleContext => null;
 }
